@@ -1,6 +1,11 @@
 import subprocess
 import os
 
+class bcolors:
+    cnick = '\033[92m' #GREEN
+    cdir = '\033[94m' #BLUE
+    reset = '\033[0m' #RESET COLOR
+
 def decoder(inp):
     out=bytes.decode(inp)
     out=out.strip('\n')
@@ -16,9 +21,15 @@ def send(lolz):
 def creanome():
     pwd=subprocess.check_output('pwd')
     pwd=decoder(pwd)
+    #if pwd=='/home/alessiosca':
+    if pwd=='/':
+        pwd2=bcolors.cdir+'~'+bcolors.reset
+    else:
+        pwd2=bcolors.cdir+pwd+bcolors.reset
     nick=subprocess.check_output('whoami')
     nick=decoder(nick)
-    nome=nick+':'+pwd+'~$ '
+    nick=nick
+    nome=bcolors.cnick+nick+'@pythonshell'+bcolors.reset+':'+pwd2+'$ '
     return pwd, nick, nome
 
 pwd, nick, nome = creanome()
@@ -29,7 +40,8 @@ while True:
         send(damandare)
     except:
         if damandare=='cd':
-            os.chdir('/home/'+nick+'/')
+            #os.chdir('/home/'+nick+'/')
+            os.chdir('/')
             pwd, nick, nome = creanome()
 
         if damandare=='cd ..':
@@ -44,7 +56,17 @@ while True:
                 pwd, nick, nome = creanome()
             except FileNotFoundError:
                 print('No such file or directory.')
-        try:
-            os.system(damandare)
-        except:
-            print('Wrong command.')
+        if 'cd' in damandare and damandare!='cd' and damandare!='cd ..':
+            damandare2=damandare.strip('cd ')
+            damandare2=pwd+'/'+damandare2
+            #print(damandare2)
+            try:
+                os.chdir(damandare2)
+                pwd, nick, nome = creanome()
+            except FileNotFoundError:
+                print('No such file or directory.')
+
+        #try:
+        #    os.system(damandare)
+        #except:
+        #    print('Wrong command.')
