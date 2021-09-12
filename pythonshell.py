@@ -11,12 +11,9 @@ def decoder(inp):
     out=out.strip('\n')
     return out
 
-def scrivi(testo):
+def send(testo):
     inp=subprocess.check_output(testo)
     print(decoder(inp))
-
-def send(lolz):
-    scrivi(lolz)
 
 def creanome():
     pwd=subprocess.check_output('pwd')
@@ -37,7 +34,9 @@ pwd, nick, nome = creanome()
 while True:
     try:
         damandare=input(str(nome)).strip(' ')
-        send(damandare)
+        print(send(damandare))
+
+
     except KeyboardInterrupt:
         print('\nExiting from pythonshell')
         exit()
