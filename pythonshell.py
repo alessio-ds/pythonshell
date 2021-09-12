@@ -38,8 +38,11 @@ while True:
     try:
         damandare=input(str(nome)).strip(' ')
         send(damandare)
+    except KeyboardInterrupt:
+        print('\nExiting from pythonshell')
+        exit()
     except:
-        if damandare=='cd':
+        if damandare=='cd' or damandare=='cd /':
             #os.chdir('/home/'+nick+'/')
             os.chdir('/')
             pwd, nick, nome = creanome()
@@ -47,15 +50,19 @@ while True:
         if damandare=='cd ..':
             cont=0
             s=''
-            while s!='/':
-                cont-=1
-                s=pwd[cont]
-            pwd=pwd[:cont]
-            try:
-                os.chdir(pwd)
+            if pwd.count('/')==1:
+                os.chdir('/')
                 pwd, nick, nome = creanome()
-            except FileNotFoundError:
-                print('No such file or directory.')
+            else:
+                while s!='/':
+                    cont-=1
+                    s=pwd[cont]
+                pwd=pwd[:cont]
+                try:
+                    os.chdir(pwd)
+                    pwd, nick, nome = creanome()
+                except FileNotFoundError:
+                    print('No such file or directory.')
         if 'cd' in damandare and damandare!='cd' and damandare!='cd ..':
             damandare2=damandare.strip('cd ')
             damandare2=pwd+'/'+damandare2
@@ -66,7 +73,10 @@ while True:
             except FileNotFoundError:
                 print('No such file or directory.')
 
-        #try:
-        #    os.system(damandare)
-        #except:
-        #    print('Wrong command.')
+        try:
+            if 'cd' in damandare:
+                pass
+            else:
+                os.system(damandare)
+        except:
+            print('Wrong command.')
