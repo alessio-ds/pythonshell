@@ -9,3 +9,7 @@ It's coloured too:
 
 
 ![](https://i.imgur.com/PnFUbLO.gif)
+
+And you can also use sudo
+
+![](https://i.imgur.com/LVxoDEn.png)
